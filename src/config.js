@@ -1,0 +1,1 @@
+export const mediaBaseUrl = '<media-assets-url>';

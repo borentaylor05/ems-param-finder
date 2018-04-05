@@ -1,0 +1,20 @@
+{
+    "aboutMe": {
+        "name": "Taylor Boren",
+        "linkedIn": "https://www.linkedin.com/in/taylor-boren-89b5083b/",
+        "details": [
+            {
+                "name": "location",
+                "value": "Austin, TX"
+            },
+            {
+                "name": "email",
+                "value": "taylorboren86@gmail.com"
+            },
+            {
+                "name": "phone",
+                "value": "(720) 800-6186"
+            }
+        ]
+    }
+}

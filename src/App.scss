@@ -1,0 +1,10 @@
+@import './_variables.scss';
+
+body {
+    font-family: $font-family;
+}
+
+.app {
+    font-family: $font-family;
+    background-color: $border-color;
+}
