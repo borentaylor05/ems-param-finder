@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import data from './data.json';
-
 import './App.scss';
 
 class App extends Component {
