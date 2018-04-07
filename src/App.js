@@ -12,6 +12,10 @@ class App extends Component {
     constructor(props) {
         super(props);
 
+        this.cache = {};
+        // just in case I want to turn it off at some point
+        this.useCache = true;
+
         this.state = {
             allParams: [],
             appliedAreaFilters: [],
@@ -27,47 +31,59 @@ class App extends Component {
         this.debounceFilterByTitle = debounce(this.debounceFilterByTitle, 400);
     }
 
-    filterResults = ({searchValue, areaFilters, typeFilters}) => {
+    memoize = (key, value) => {
+        this.cache[key] = value;
+
+        return value;
+    }
+
+    // arguments won't work with arrow function
+    filterResults({searchValue, areaFilters, typeFilters}) {
+        const argsString = JSON.stringify(arguments[0]); // eslint-disable-line
+        if (this.useCache && this.cache[argsString]) {
+            return this.cache[argsString];
+        }
+
         const {allParams} = this.state;
 
         // no filters
         if (!searchValue && !areaFilters.length && !typeFilters.length) {
-            return this.state.allParams;
+            return this.memoize(argsString, this.state.allParams);
         }
 
         // all filters
         if (searchValue && areaFilters.length && typeFilters.length) {
-            return this.filterTitle(searchValue, this.filterArea(areaFilters, this.filterType(typeFilters, allParams)));
+            return this.memoize(argsString, this.filterTitle(searchValue, this.filterArea(areaFilters, this.filterType(typeFilters, allParams))));
         }
 
         // search and area
         if (searchValue && areaFilters.length) {
-            return this.filterTitle(searchValue, this.filterArea(areaFilters, allParams));
+            return this.memoize(argsString, this.filterTitle(searchValue, this.filterArea(areaFilters, allParams)));
         }
 
         // search and type
         if (searchValue && typeFilters.length) {
-            return this.filterTitle(searchValue, this.filterType(typeFilters, allParams));
+            return this.memoize(argsString, this.filterTitle(searchValue, this.filterType(typeFilters, allParams)));
         }
 
         // area and type
         if (areaFilters.length && typeFilters.length) {
-            return this.filterArea(areaFilters, this.filterType(typeFilters, allParams));
+            return this.memoize(argsString, this.filterArea(areaFilters, this.filterType(typeFilters, allParams)));
         }
         
         // search only
         if (searchValue) {
-            return this.filterTitle(searchValue, allParams);
+            return this.memoize(argsString, this.filterTitle(searchValue, allParams));
         }
         
         // area only
         if (areaFilters.length) {
-            return this.filterArea(areaFilters, allParams);
+            return this.memoize(argsString, this.filterArea(areaFilters, allParams));
         }
 
         // type only
         if (typeFilters.length) {
-            return this.filterArea(typeFilters, allParams);
+            return this.memoize(argsString, this.filterArea(typeFilters, allParams));
         }
     }
 
