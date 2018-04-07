@@ -1,0 +1,43 @@
+.grid-row {
+    &:hover {
+        cursor: default;
+        background-color: #FFFECE;
+    }
+
+    &__column--orange {
+        background-color: #FD9727;
+    }
+
+    &__column--green {
+        background-color: #50AE54;
+    }
+
+    &__column--gray {
+        background-color: #363E44;
+    }
+
+    &__column--blue {
+        background-color: #2C98F0;
+    }
+
+    &__column--center {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__column--v-center {
+        display: flex !important;
+        align-items: center;
+    }
+
+    &__type {
+        font-weight: bold;
+        font-size: 24px;
+    }
+
+    &__area {
+        font-size: 16px;
+    }
+
+}

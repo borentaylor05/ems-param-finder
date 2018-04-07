@@ -5,6 +5,7 @@ body {
 }
 
 .app {
-    font-family: $font-family;
-    background-color: $border-color;
+    &__filter-container {
+        padding: 20px;
+    }
 }
