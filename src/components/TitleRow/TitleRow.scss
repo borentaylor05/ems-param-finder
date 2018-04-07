@@ -1,0 +1,11 @@
+.title-row {
+    background-color: #272727;
+    color: #BDBDBD;
+    font-size: 18px;
+
+    &__column {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+}

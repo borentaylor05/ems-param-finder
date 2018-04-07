@@ -1,4 +1,8 @@
 .grid-row {
+    &:first-child {
+        border-top-left-radius: 5px;
+    }
+
     &:hover {
         cursor: default;
         background-color: #FFFECE;
