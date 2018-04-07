@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import debounce from 'lodash.debounce';
 import uniqby from 'lodash.uniqby';
-import intersectionWith from 'lodash.intersectionwith';
-import isEqual from 'lodash.isequal';
 
 import ParamsGrid from './components/ParamsGrid/ParamsGrid';
 import FiltersContainer from './components/FiltersContainer/FiltersContainer';
@@ -19,12 +17,9 @@ class App extends Component {
             appliedAreaFilters: [],
             appliedTypeFilters: [],
             areaFilters: [],
-            areaFilterResults: [],
-            searchFilterResults: [],
-            typeFilterResults: [],
-            searchValue: '',
             error: null,
             isDataLoaded: false,
+            searchValue: '',
             typeFilters: [],
             visibleParams: [],
         }
@@ -32,77 +27,81 @@ class App extends Component {
         this.debounceFilterByTitle = debounce(this.debounceFilterByTitle, 400);
     }
 
-    calculateVisibleParams = () => {
-        const {
-            appliedAreaFilters,
-            appliedTypeFilters,
-            areaFilterResults,
-            searchFilterResults,
-            typeFilterResults,
-            searchValue
-        } = this.state;
+    filterResults = ({searchValue, areaFilters, typeFilters}) => {
+        const {allParams} = this.state;
 
-        const areaFiltersOnly = appliedAreaFilters.length && !appliedTypeFilters.length && !searchValue;
-        const searchFiltersOnly = !appliedAreaFilters.length && searchValue && !appliedTypeFilters.length;
-        const typeFiltersOnly = !appliedAreaFilters.length && !searchValue && appliedTypeFilters.length;
-        const allFiltersApplied = appliedAreaFilters.length && searchValue && appliedTypeFilters.length;
+        // no filters
+        if (!searchValue && !areaFilters.length && !typeFilters.length) {
+            return this.state.allParams;
+        }
+
+        // all filters
+        if (searchValue && areaFilters.length && typeFilters.length) {
+            return this.filterTitle(searchValue, this.filterArea(areaFilters, this.filterType(typeFilters, allParams)));
+        }
+
+        // search and area
+        if (searchValue && areaFilters.length) {
+            console.log('SEARCH AND AREA');
+            return this.filterTitle(searchValue, this.filterArea(areaFilters, allParams));
+        }
+
+        // search and type
+        if (searchValue && typeFilters.length) {
+            return this.filterTitle(searchValue, this.filterType(typeFilters, allParams));
+        }
+
+        // area and type
+        if (areaFilters.length && typeFilters.length) {
+            return this.filterArea(areaFilters, this.filterType(typeFilters, allParams));
+        }
         
-        if (allFiltersApplied) {
-            return intersectionWith(areaFilterResults, searchFilterResults, typeFilterResults, isEqual);
-        }
-        if (areaFiltersOnly) {
-            return areaFilterResults;
-        }
-        if (searchFiltersOnly) {
-            return searchFilterResults;
-        }
-        if (typeFiltersOnly) {
-            return typeFilterResults;
-        }
-        if (appliedAreaFilters.length && appliedTypeFilters.length) {
-            return intersectionWith(areaFilterResults, typeFilterResults, isEqual);
-        }
-        if (appliedTypeFilters.length && searchValue) {
-            return intersectionWith(typeFilterResults, searchFilterResults, isEqual);
-        }
-        if (appliedAreaFilters.length && searchValue) {
-            return intersectionWith(areaFilterResults, searchFilterResults, isEqual);
+        // search only
+        if (searchValue) {
+            return this.filterTitle(searchValue, allParams);
         }
         
+        // area only
+        if (areaFilters.length) {
+            return this.filterArea(areaFilters, allParams);
+        }
+
+        // type only
+        if (typeFilters.length) {
+            return this.filterArea(typeFilters, allParams);
+        }
+    }
+
+    filterTitle = (searchValue, params) => {
+        return params.filter(param => param.Title.toLowerCase().includes(searchValue.toLowerCase()));
+    }
+
+    filterArea = (areaFilters, params) => {
+        console.log('AREA');
+        return params.filter(param => areaFilters.includes(param.Area));
+    }
+
+    filterType = (typeFilters, params) => {
+        return params.filter(param => typeFilters.includes(param.type));
     }
 
     debounceFilterByTitle = (newSearchValue) => {
         const {
-            allParams,
             appliedAreaFilters,
             appliedTypeFilters
         } = this.state;
 
-        if (!newSearchValue) {
-            const hasOtherFilters = appliedAreaFilters.length || appliedTypeFilters.length;
-            return this.setState({
-                isSearchFiltering: false,
-                searchValue: null,
-                searchFilterResults: hasOtherFilters ? [] : allParams
-            }, () => {
-                this.setState({
-                    visibleParams: this.calculateVisibleParams()
-                })
-            })
-        }
-
+        const visibleParams = this.filterResults({
+            searchValue: newSearchValue,
+            areaFilters: appliedAreaFilters,
+            typeFilters: appliedTypeFilters
+        });
 
         this.setState({
             isSearchFiltering: false,
             searchValue: newSearchValue,
-            searchFilterResults: allParams.filter(param => {
-                return param.Title.toLowerCase().includes(newSearchValue.toLowerCase());
-            })
-        }, () => {
-            this.setState({
-                visibleParams: this.calculateVisibleParams()
-            })
-        });
+            visibleParams
+        })
     }
 
     filterByArea = (e, obj) => {
@@ -112,47 +111,59 @@ class App extends Component {
         } = obj;
 
         const {
-            allParams,
+            appliedTypeFilters,
             appliedAreaFilters,
-            visibleParams
+            searchValue
         } = this.state;
 
-        const currentParams = appliedAreaFilters.length ? visibleParams : [];
+        // remove unchecked filter or add it to existing
+        const newAreaFilters = checked ? 
+            appliedAreaFilters.concat([label]) : 
+            appliedAreaFilters.filter(area => area !== label);
 
-        if (checked) {
-            appliedAreaFilters.push(label);
-
-            return this.setState({
-                appliedAreaFilters,
-                areaFilterResults: currentParams.concat(allParams.filter(param => param.Area === label))
-            }, () => {
-                this.setState({
-                    visibleParams: this.calculateVisibleParams()
-                })
-            });
-        }
-
-        // remove unchecked filter
-        const newAreaFilters = appliedAreaFilters.filter(area => area !== label);
-
-        if (!newAreaFilters.length) {
-            return this.setState({
-                appliedAreaFilters: newAreaFilters,
-                areaFilterResults: allParams
-            }, () => {
-                this.setState({
-                    visibleParams: this.calculateVisibleParams()
-                })
-            });
-        }
-
-        return this.setState({
+        const visibleParams = this.filterResults({
+            searchValue,
+            areaFilters: newAreaFilters,
+            typeFilters: appliedTypeFilters
+        });
+    
+        this.setState({
             appliedAreaFilters: newAreaFilters,
-            areaFilterResults: visibleParams.filter(param => param.Area !== label)
-        }, () => {
-            this.setState({
-                visibleParams: this.calculateVisibleParams()
-            })
+            isSearchFiltering: false,
+            searchValue,
+            visibleParams
+        })
+    }
+
+    filterByType = (e, obj) => {
+        const {
+            checked,
+            label
+        } = obj;
+
+        const {
+            appliedTypeFilters,
+            appliedAreaFilters,
+            searchValue
+        } = this.state;
+
+        const newTypeFilters = checked ?
+            // add new filter
+            appliedTypeFilters.concat([label]) :
+            // remove filter
+            appliedTypeFilters.filter(area => area !== label);
+
+        const visibleParams = this.filterResults({
+            searchValue,
+            areaFilters: appliedAreaFilters,
+            typeFilters: newTypeFilters
+        });
+
+        this.setState({
+            appliedTypeFilters: newTypeFilters,
+            isSearchFiltering: false,
+            searchValue,
+            visibleParams
         });
     }
 
