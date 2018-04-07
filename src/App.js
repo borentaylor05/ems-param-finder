@@ -42,7 +42,6 @@ class App extends Component {
 
         // search and area
         if (searchValue && areaFilters.length) {
-            console.log('SEARCH AND AREA');
             return this.filterTitle(searchValue, this.filterArea(areaFilters, allParams));
         }
 
@@ -77,7 +76,6 @@ class App extends Component {
     }
 
     filterArea = (areaFilters, params) => {
-        console.log('AREA');
         return params.filter(param => areaFilters.includes(param.Area));
     }
 
