@@ -33,7 +33,10 @@ class GridRow extends Component {
                 <Grid.Column className="grid-row__column grid-row__column--v-center" width={4}>
                     {param.Description}
                 </Grid.Column>
-                <Grid.Column className="grid-row__column grid-row__column--v-center" width={3}>
+                <Grid.Column className="grid-row__column grid-row__column--v-center" width={1}>
+                    {param.Value}
+                </Grid.Column>
+                <Grid.Column className="grid-row__column grid-row__column--v-center" width={2}>
                     {param.Example}
                 </Grid.Column>
                 <Grid.Column className="grid-row__column grid-row__column--center" width={3}>

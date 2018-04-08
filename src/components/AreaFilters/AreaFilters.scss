@@ -1,6 +1,7 @@
 .area-filters {
     &__filter-container {
         display: flex;
+        flex-wrap: wrap;
     }
 
     &__filter {

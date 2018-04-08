@@ -1,9 +1,29 @@
 .type-filters {
+    &__title {
+        display: flex;
+    }
+
+    &__loader {
+        margin-left: 10px !important;
+        margin-top: 5px !important;
+    }
+
     &__filter-container {
         display: flex;
     }
 
     &__filter {
         padding: 0 20px 20px 0;
+    }
+
+    &__label {
+        font-size: 18px !important;
+
+        &::first-letter {
+            font-size: 20px;
+            font-weight: bold;
+            border-bottom: 2px solid black;
+
+        }
     }
 }

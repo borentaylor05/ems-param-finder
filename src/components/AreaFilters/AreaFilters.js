@@ -18,7 +18,7 @@ class AreaFilters extends Component {
                         return (
                             <div key={i} className="area-filters__filter">
                                 <Checkbox 
-                                    onChange={filterFunc} 
+                                    onChange={filterFunc}
                                     label={area}
                                     value={area}
                                 />

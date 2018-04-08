@@ -14,12 +14,14 @@ class FiltersContainer extends Component {
             filterByType,
             filterByTitle,
             isSearchFiltering,
+            isTypeFiltering,
             typeFilters
         } = this.props;
 
         return (
             <div className="filters-container">
-                <TypeFilters 
+                <TypeFilters
+                    isFiltering={isTypeFiltering}
                     filterFunc={filterByType} 
                     typeFilters={typeFilters} 
                 />
@@ -30,7 +32,7 @@ class FiltersContainer extends Component {
                 />
 
                 <TitleFilter
-                    isSearchFiltering={isSearchFiltering}
+                    isFiltering={isSearchFiltering}
                     filterFunc={filterByTitle} 
                 />
             </div>

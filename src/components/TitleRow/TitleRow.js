@@ -8,7 +8,7 @@ class TitleRow extends Component {
         return (
             <Grid.Row className="title-row">
                 <Grid.Column className={`title-row__column`} width={1}>
-                   Client
+                   Type
                 </Grid.Column>
                 <Grid.Column className="title-row__column" width={2}>
                     Area
@@ -19,7 +19,10 @@ class TitleRow extends Component {
                 <Grid.Column className="title-row__column" width={4}>
                     Description
                 </Grid.Column>
-                <Grid.Column className="title-row__column" width={3}>
+                <Grid.Column className="title-row__column" width={1}>
+                    Value
+                </Grid.Column>
+                <Grid.Column className="title-row__column" width={2}>
                     Example
                 </Grid.Column>
                 <Grid.Column className="title-row__column title-row__column--center" width={3}>

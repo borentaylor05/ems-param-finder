@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import debounce from 'lodash.debounce';
 import uniqby from 'lodash.uniqby';
+import sortBy from 'lodash.sortby';
 
 import ParamsGrid from './components/ParamsGrid/ParamsGrid';
 import FiltersContainer from './components/FiltersContainer/FiltersContainer';
@@ -83,7 +84,7 @@ class App extends Component {
 
         // type only
         if (typeFilters.length) {
-            return this.memoize(argsString, this.filterArea(typeFilters, allParams));
+            return this.memoize(argsString, this.filterType(typeFilters, allParams));
         }
     }
 
@@ -152,7 +153,7 @@ class App extends Component {
     filterByType = (e, obj) => {
         const {
             checked,
-            label
+            value
         } = obj;
 
         const {
@@ -163,9 +164,9 @@ class App extends Component {
 
         const newTypeFilters = checked ?
             // add new filter
-            appliedTypeFilters.concat([label]) :
+            appliedTypeFilters.concat([value]) :
             // remove filter
-            appliedTypeFilters.filter(area => area !== label);
+            appliedTypeFilters.filter(area => area !== value);
 
         const visibleParams = this.filterResults({
             searchValue,
@@ -192,7 +193,7 @@ class App extends Component {
                 this.setState({
                     allParams: resp,
                     isDataLoaded: true,
-                    areaFilters: uniqby(resp, 'Area').map(param => param.Area),
+                    areaFilters: sortBy(uniqby(resp, 'Area'), 'Area').map(param => param.Area),
                     typeFilters: uniqby(resp, 'type').map(param => param.type),
                     visibleParams: resp
                 });

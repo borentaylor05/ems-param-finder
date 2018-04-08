@@ -6,7 +6,7 @@ import './TitleFilter.scss';
 class TitleFilter extends Component {
     render() {
         const {
-            isSearchFiltering,
+            isFiltering,
             filterFunc
         } = this.props;
 
@@ -16,7 +16,7 @@ class TitleFilter extends Component {
                 <Input
                     className="title-filter__input"
                     onChange={filterFunc} 
-                    loading={isSearchFiltering} 
+                    loading={isFiltering} 
                     size="big"
                     icon='search' 
                     placeholder='Start typing to filter...' 
