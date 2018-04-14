@@ -147,7 +147,9 @@ class App extends Component {
             isSearchFiltering: false,
             searchValue,
             visibleParams
-        })
+        });
+
+        window.scrollTo(0, 0);
     }
 
     filterByType = (e, obj) => {
@@ -226,7 +228,9 @@ class App extends Component {
                     />
                 </div>
 
-                <ParamsGrid isDataLoaded={isDataLoaded} params={visibleParams} />
+                <div className="app__params-grid-container">
+                    <ParamsGrid isDataLoaded={isDataLoaded} params={visibleParams} />
+                </div>
             </div>
         );
     }

@@ -9,13 +9,17 @@ class ParamsGrid extends Component {
     
 
     render() {
-        const {
+        let {
             isDataLoaded,
             params
         } = this.props;
 
         if (!isDataLoaded) {
-            return <Loader active={!isDataLoaded} inline='centered' />;
+            return (
+                <div className="params-grid--loading">
+                    <Loader className="params-grid__loader" active={!isDataLoaded} />
+                </div>
+            )
         }
 
         return (

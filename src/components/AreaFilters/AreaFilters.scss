@@ -1,10 +1,9 @@
 .area-filters {
-    &__filter-container {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
     &__filter {
         padding: 0 20px 20px 0;
+
+        label {
+            color: #8D8E8E !important;
+        }
     }
 }

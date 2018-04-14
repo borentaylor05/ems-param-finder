@@ -20,6 +20,11 @@ class FiltersContainer extends Component {
 
         return (
             <div className="filters-container">
+                <TitleFilter
+                    isFiltering={isSearchFiltering}
+                    filterFunc={filterByTitle} 
+                />
+
                 <TypeFilters
                     isFiltering={isTypeFiltering}
                     filterFunc={filterByType} 
@@ -29,11 +34,6 @@ class FiltersContainer extends Component {
                 <AreaFilters 
                     filterFunc={filterByArea} 
                     areaFilters={areaFilters} 
-                />
-
-                <TitleFilter
-                    isFiltering={isSearchFiltering}
-                    filterFunc={filterByTitle} 
                 />
             </div>
         )

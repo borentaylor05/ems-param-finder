@@ -17,7 +17,7 @@ class TitleFilter extends Component {
                     className="title-filter__input"
                     onChange={filterFunc} 
                     loading={isFiltering} 
-                    size="big"
+                    size="small"
                     icon='search' 
                     placeholder='Start typing to filter...' 
                 />

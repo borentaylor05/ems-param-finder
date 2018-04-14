@@ -1,15 +1,7 @@
 .type-filters {
-    &__title {
-        display: flex;
-    }
-
     &__loader {
         margin-left: 10px !important;
         margin-top: 5px !important;
-    }
-
-    &__filter-container {
-        display: flex;
     }
 
     &__filter {
@@ -17,13 +9,22 @@
     }
 
     &__label {
-        font-size: 18px !important;
+        font-size: 16px !important;
 
         &::first-letter {
             font-size: 20px;
             font-weight: bold;
-            border-bottom: 2px solid black;
+            border-bottom: 2px solid yellow;
+        }
 
+        label {
+            line-height: 25px;
+            color: #8D8E8E !important;
+
+            &::before {
+                content: '';
+                top: 5px !important;
+            }
         }
     }
 }

@@ -5,7 +5,19 @@ body {
 }
 
 .app {
+    display: flex;
+
     &__filter-container {
-        padding: 20px;
+        background-color: #1B1C1D;
+        position: fixed;
+        width: 220px;
+        color: #8D8E8E;
+        padding: 10px;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    &__params-grid-container {
+        margin-left: 220px;
     }
 }
