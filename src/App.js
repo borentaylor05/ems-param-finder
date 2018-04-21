@@ -164,7 +164,7 @@ class App extends Component {
             searchValue
         } = this.state;
 
-        const newTypeFilters = checked ?
+        const newAppliedTypeFilters = checked ?
             // add new filter
             appliedTypeFilters.concat([value]) :
             // remove filter
@@ -173,11 +173,12 @@ class App extends Component {
         const visibleParams = this.filterResults({
             searchValue,
             areaFilters: appliedAreaFilters,
-            typeFilters: newTypeFilters
+            typeFilters: newAppliedTypeFilters
         });
 
         this.setState({
-            appliedTypeFilters: newTypeFilters,
+            appliedTypeFilters: newAppliedTypeFilters,
+            areaFilters: sortBy(uniqby(visibleParams, 'Area'), 'Area').map(param => param.Area),
             isSearchFiltering: false,
             searchValue,
             visibleParams
