@@ -32,7 +32,9 @@
 
     &__column--v-center {
         display: flex !important;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
     }
 
     &__type {

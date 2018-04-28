@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import { Grid, Button } from 'semantic-ui-react';
+import { Grid, Divider } from 'semantic-ui-react';
+
+import RelatedParams from '../ReatedParams/RelatedParams';
 
 import './GridRow.scss';
 
@@ -11,18 +13,6 @@ const colorMap = {
 };
 
 class GridRow extends Component {
-    renderButton(relatedParams) {
-        console.log(relatedParams);
-        <Button color="teal" animated='fade'>
-            <Button.Content visible>
-                {'Related Param(s)'}
-            </Button.Content>
-            <Button.Content hidden>
-                View
-            </Button.Content>
-        </Button>
-    }
-
     render() {
         const {param} = this.props;
         const clientLabel = param.type.charAt(0).toUpperCase();
@@ -42,7 +32,10 @@ class GridRow extends Component {
                 <Grid.Column className="grid-row__column grid-row__column--v-center" width={3}>
                     {param.Title}
                     {param['Relationship Parameters'] &&
-                        this.renderButton(param['Relationship Parameters'])
+                        <React.Fragment>
+                            <Divider horizontal>Related</Divider>
+                            <RelatedParams text={param['Relationship Parameters']} />
+                        </React.Fragment>
                     }
                 </Grid.Column>
                 <Grid.Column className="grid-row__column grid-row__column--v-center" width={4}>
