@@ -11,6 +11,18 @@ const colorMap = {
 };
 
 class GridRow extends Component {
+    renderButton(relatedParams) {
+        console.log(relatedParams);
+        <Button color="teal" animated='fade'>
+            <Button.Content visible>
+                {'Related Param(s)'}
+            </Button.Content>
+            <Button.Content hidden>
+                View
+            </Button.Content>
+        </Button>
+    }
+
     render() {
         const {param} = this.props;
         const clientLabel = param.type.charAt(0).toUpperCase();
@@ -29,25 +41,18 @@ class GridRow extends Component {
                 </Grid.Column>
                 <Grid.Column className="grid-row__column grid-row__column--v-center" width={3}>
                     {param.Title}
+                    {param['Relationship Parameters'] &&
+                        this.renderButton(param['Relationship Parameters'])
+                    }
                 </Grid.Column>
                 <Grid.Column className="grid-row__column grid-row__column--v-center" width={4}>
                     {param.Description}
                 </Grid.Column>
-                <Grid.Column className="grid-row__column grid-row__column--v-center" width={1}>
+                <Grid.Column className="grid-row__column grid-row__column--v-center" width={2}>
                     {param.Value}
                 </Grid.Column>
-                <Grid.Column className="grid-row__column grid-row__column--v-center" width={2}>
+                <Grid.Column className="grid-row__column grid-row__column--v-center" width={3}>
                     {param.Example}
-                </Grid.Column>
-                <Grid.Column className="grid-row__column grid-row__column--center" width={3}>
-                    <Button color="teal" disabled={!param['Relationship Parameters']} animated='fade'>
-                        <Button.Content visible>
-                            {'Related Param(s)'}
-                        </Button.Content>
-                        <Button.Content hidden>
-                            View
-                        </Button.Content>
-                    </Button>
                 </Grid.Column>
             </Grid.Row>
         )
