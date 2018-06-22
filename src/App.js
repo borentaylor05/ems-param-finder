@@ -89,7 +89,11 @@ class App extends Component {
     }
 
     filterTitle = (searchValue, params) => {
-        return params.filter(param => param.Title.toLowerCase().includes(searchValue.toLowerCase()));
+        return params.filter(param => {
+            const title = param.Title || '';
+
+            return title.toLowerCase().includes(searchValue.toLowerCase());
+        });
     }
 
     filterArea = (areaFilters, params) => {
